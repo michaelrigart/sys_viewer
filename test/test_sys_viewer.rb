@@ -17,7 +17,7 @@ class TestSysViewer < Test::Unit::TestCase
     assert_equal "michael", SysViewer.user
   end
 
-  test "memory_info" do
+  test "memory_info exists" do
     assert_respond_to SysViewer, :memory_info
   end
 
@@ -34,6 +34,23 @@ class TestSysViewer < Test::Unit::TestCase
     assert response.has_key?(:swapfree)
 
     response.each { |key, value| assert value.kind_of?(Float) }
+  end
 
+  test "disk_usage exists" do
+    assert_respond_to SysViewer, :disk_usage
+  end
+
+  test "disk_usage" do
+    response = SysViewer.disk_usage
+
+    assert response.kind_of?(Hash)
+
+    response.each do | key, value |
+      assert value.has_key?(:total)
+      assert value.has_key?(:used)
+      assert value.has_key?(:free)
+      assert value.has_key?(:percent)
+      assert value.has_key?(:path)
+    end
   end
 end

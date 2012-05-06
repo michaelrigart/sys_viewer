@@ -29,5 +29,28 @@ module SysViewer
 
       memory
     end
+
+    def disk_usage
+      stdin, stdout, stderr = Open3.popen3('df', '-h')
+      volumes = stdout.readlines
+      volumes.shift # remove header
+
+      data = {}
+
+      volumes.each do |volume|
+        columns = { total: '', used: '', free: '', percent: '', path: '' }
+        line = volume.split(/[ ]{2,}/, 6)
+
+        columns[:total] = line[1]
+        columns[:used] = line[2]
+        columns[:free] = line[3]
+        columns[:percent] = line[4]
+        columns[:path] = line[5].gsub(/[\n]+/,'')
+
+        data[line[0]] = columns
+      end
+
+      data
+    end
   end
 end
