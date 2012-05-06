@@ -87,7 +87,7 @@ module SysViewer
         values = line.split
         # rxkB/s - Total number of kilobytes received per second  
         # txkB/s - Total number of kilobytes transmitted per second
-        network_data[values[1]] = { received: values[4].to_f, transmidded: values[5].to_f }
+        network_data[values[1]] = { received: values[4].to_f, transmitted: values[5].to_f }
       end
 
       network_data
