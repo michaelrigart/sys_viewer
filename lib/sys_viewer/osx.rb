@@ -92,8 +92,26 @@ module SysViewer
       { user: values[3].to_i, system: values[4].to_i, idle: values[5].to_i }
     end
 
+    def network_traffic
+      stdin, stdout, stderr = Open3.popen3('sar', '-n', 'DEV', '1', '1')
 
+      data = stdout.readlines
+      4.times { data.shift } # remove first 4 lines
 
+      network_data = {}
+      data.each do |line|
+        if line.start_with?("Average")
+          values = line.split
+          # Ipkts/s   - Packets received per second
+          # Ibytes/s  - Bytes received per second
+          # Opkts/s   - Packets transmitted per second
+          # Obytes/s  - Bytes tranmitted per second
+          network_data[values[1]] = { received: values[3].to_i, transmitted: values[5].to_i}
+        end
+      end
+
+      network_data
+    end
 
   end
 end

@@ -46,11 +46,17 @@ class TestSysViewer < Test::Unit::TestCase
     assert response.kind_of?(Hash)
 
     response.each do | key, value |
+      assert key.kind_of?(String)
       assert value.has_key?(:total)
+      assert value[:total].kind_of?(String)
       assert value.has_key?(:used)
+      assert value[:used].kind_of?(String)
       assert value.has_key?(:free)
+      assert value[:free].kind_of?(String)
       assert value.has_key?(:percent)
+      assert value[:percent].kind_of?(String)
       assert value.has_key?(:path)
+      assert value[:path].kind_of?(String)
     end
   end
 
@@ -107,6 +113,24 @@ class TestSysViewer < Test::Unit::TestCase
     assert response[:system].kind_of?(Integer)
     assert response.has_key?(:idle)
     assert response[:idle].kind_of?(Integer)
+  end
+
+  test "network_traffic exists" do
+    assert_respond_to SysViewer, :network_traffic
+  end
+
+  test "network_traffic" do
+    response = SysViewer.network_traffic
+
+    assert response.kind_of?(Hash)
+
+    response.each do | key, value |
+      assert key.kind_of?(String)
+      assert value.has_key?(:received)
+      assert value[:received].kind_of?(Integer)
+      assert value.has_key?(:transmitted)
+      assert value[:transmitted].kind_of?(Integer)
+    end
   end
 
 end
