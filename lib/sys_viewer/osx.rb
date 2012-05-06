@@ -83,6 +83,17 @@ module SysViewer
       loadavg
     end
 
+    def cpu_utilization
+      stdin, stdout, stderr = Open3.popen3('iostat')
+
+      lines = stdout.readlines
+      values = lines[2].split
+
+      { user: values[3].to_i, system: values[4].to_i, idle: values[5].to_i }
+    end
+
+
+
 
   end
 end

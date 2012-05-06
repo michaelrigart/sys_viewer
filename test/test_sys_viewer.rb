@@ -92,5 +92,21 @@ class TestSysViewer < Test::Unit::TestCase
     assert response[:cores].kind_of?(Integer)
   end
 
+  test "cpu_utilization exists" do
+    assert_respond_to SysViewer, :cpu_utilization
+  end
+
+  test "cpu_utilization" do
+    response = SysViewer.cpu_utilization
+
+    assert response.kind_of?(Hash)
+
+    assert response.has_key?(:user)
+    assert response[:user].kind_of?(Integer)
+    assert response.has_key?(:system)
+    assert response[:system].kind_of?(Integer)
+    assert response.has_key?(:idle)
+    assert response[:idle].kind_of?(Integer)
+  end
 
 end
