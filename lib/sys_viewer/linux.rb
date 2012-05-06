@@ -46,20 +46,51 @@ module SysViewer
     end
 
     def uptime
+      uptime = File.open('/proc/uptime', &:readline).split[0].to_f
 
+      minute = 60
+      hour = minute * 60
+      day = hour * 24
+
+      days = (uptime / day).to_i
+      hours = ((uptime % day) / hour).to_i
+      minutes = ((uptime % hour) / minute).to_i
+      seconds = (uptime % minute).to_i
+
+      { days: days, hours: hours, minutes: minutes, seconds: seconds }
     end
 
     def load_average
-
+      loadavg = { minute: 0, five_minutes: 0, fifteen_minutes: 0, cores: 0 }
+      loadavg[:minute], loadavg[:five_minutes], loadavg[:fifteen_minutes] = File.open('/proc/loadavg', &:readline).scan(/\d+.\d+/).map { |value| value.to_f } 
+    
+      loadavg
     end
 
 
     def cpu_utilization
-
+      stdin, stdout, stderr = Open3.popen3('sar', '1', '1')
+      average_stats = stdout.readlines.last
+      values = average_stats.scan(/\d+[\.,]\d+/)
+ 
+      { user: values[0].to_f , system: values[2].to_f , idle: values[5].to_f }
     end
 
     def network_traffic
+      stdin, stdout, stderr = Open3.popen3('sar', '-n', 'DEV', '1', '1')
 
+      data = stdout.readlines
+      7.times { data.shift } # remove first 7 lines
+
+      network_data = {}
+      data.each do |line|
+        values = line.split
+        # rxkB/s - Total number of kilobytes received per second  
+        # txkB/s - Total number of kilobytes transmitted per second
+        network_data[values[1]] = { received: values[4].to_f, transmidded: values[5].to_f }
+      end
+
+      network_data
     end
 
   end
