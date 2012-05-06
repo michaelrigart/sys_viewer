@@ -106,7 +106,7 @@ module SysViewer
           # Ibytes/s  - Bytes received per second
           # Opkts/s   - Packets transmitted per second
           # Obytes/s  - Bytes tranmitted per second
-          network_data[values[1]] = { received: values[3].to_i, transmitted: values[5].to_i}
+          network_data[values[1]] = { received: values[3].to_f, transmitted: values[5].to_f }
         end
       end
 

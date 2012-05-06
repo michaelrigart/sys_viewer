@@ -129,9 +129,9 @@ class TestSysViewer < Test::Unit::TestCase
     response.each do | key, value |
       assert key.kind_of?(String)
       assert value.has_key?(:received)
-      assert value[:received].kind_of?(Integer)
+      assert value[:received].kind_of?(Float)
       assert value.has_key?(:transmitted)
-      assert value[:transmitted].kind_of?(Integer)
+      assert value[:transmitted].kind_of?(Float)
     end
   end
 
