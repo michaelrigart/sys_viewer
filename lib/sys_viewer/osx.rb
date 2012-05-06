@@ -89,7 +89,7 @@ module SysViewer
       lines = stdout.readlines
       values = lines[2].split
 
-      { user: values[3].to_i, system: values[4].to_i, idle: values[5].to_i }
+      { user: values[3].to_f, system: values[4].to_f, idle: values[5].to_f }
     end
 
     def network_traffic
