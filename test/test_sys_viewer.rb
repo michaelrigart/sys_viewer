@@ -10,11 +10,11 @@ class TestSysViewer < Test::Unit::TestCase
   end
 
   test "hostname" do
-    assert_equal "Skynet.local", SysViewer.hostname
+    assert SysViewer.hostname.kind_of?(String)
   end
 
   test "user" do
-    assert_equal "michael", SysViewer.user
+    assert SysViewer.user.kind_of?(String)
   end
 
   test "memory_info exists" do
