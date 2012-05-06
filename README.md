@@ -2,6 +2,10 @@
 
 Small library for viewing some system data. Nothing fancy, just created it to play around with some stuff.
 
+# Prerequisites
+
+Only tested on MRI 1.9.3 in combination with OS X 10.6.8 and Ubuntu 12.04
+
 # Install
 
 $ gem install sys_viewer
@@ -44,7 +48,6 @@ $ irb
 
 # Todo
 
-- This only works on OS X
 - Some exception handling would be nice
 
 # Copyright
