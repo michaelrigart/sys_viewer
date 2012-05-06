@@ -52,5 +52,37 @@ module SysViewer
 
       data
     end
+
+    def uptime
+      stdin, stdout, stderr = Open3.popen3('sysctl', 'kern.boottime')
+
+      uptime = stdout.gets.scan(/sec = \d+/)[0].split('=')[1].strip.to_f
+      uptime = Time.now.to_i - uptime
+
+      minute = 60
+      hour = minute * 60
+      day = hour * 24
+
+      days = (uptime / day).to_i
+      hours = ((uptime % day) / hour).to_i
+      minutes = ((uptime % hour) / minute).to_i
+      seconds = (uptime % minute).to_i
+
+      { days: days, hours: hours, minutes: minutes, seconds: seconds }
+    end
+
+    def load_average
+      stdin, stdout, stderr = Open3.popen3('sysctl', 'vm.loadavg')
+
+      loadavg = { minute: 0, five_minutes: 0, fifteen_minutes: 0, cores: 0 }
+      loadavg[:minute], loadavg[:five_minutes], loadavg[:fifteen_minutes] = stdout.gets.scan(/\d+.\d+/).map { |value| value.to_f }
+
+      stdin, stdout, stderr = Open3.popen3('sysctl', '-n', 'hw.logicalcpu')
+
+      loadavg[:cores] = stdout.gets.to_i
+      loadavg
+    end
+
+
   end
 end

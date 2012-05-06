@@ -53,4 +53,44 @@ class TestSysViewer < Test::Unit::TestCase
       assert value.has_key?(:path)
     end
   end
+
+  test "uptime exists" do
+    assert_respond_to SysViewer, :uptime
+  end
+
+  test "uptime" do
+    response = SysViewer.uptime
+
+    assert response.kind_of?(Hash)
+
+    assert response.has_key?(:days)
+    assert response[:days].kind_of?(Integer)
+    assert response.has_key?(:hours)
+    assert response[:hours].kind_of?(Integer)
+    assert response.has_key?(:minutes)
+    assert response[:minutes].kind_of?(Integer)
+    assert response.has_key?(:seconds)
+    assert response[:seconds].kind_of?(Integer)
+  end
+
+  test "load_average exists" do
+    assert_respond_to SysViewer, :load_average
+  end
+
+  test "load_average" do
+    response = SysViewer.load_average
+
+    assert response.kind_of?(Hash)
+
+    assert response.has_key?(:minute)
+    assert response[:minute].kind_of?(Float)
+    assert response.has_key?(:five_minutes)
+    assert response[:five_minutes].kind_of?(Float)
+    assert response.has_key?(:fifteen_minutes)
+    assert response[:fifteen_minutes].kind_of?(Float)
+    assert response.has_key?(:cores)
+    assert response[:cores].kind_of?(Integer)
+  end
+
+
 end
