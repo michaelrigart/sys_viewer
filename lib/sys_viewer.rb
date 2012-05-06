@@ -1,4 +1,5 @@
 require 'socket'
+require 'open3'
 require 'sys_viewer/version'
 require 'sys_viewer/osx'
 
