@@ -63,7 +63,11 @@ module SysViewer
     def load_average
       loadavg = { minute: 0, five_minutes: 0, fifteen_minutes: 0, cores: 0 }
       loadavg[:minute], loadavg[:five_minutes], loadavg[:fifteen_minutes] = File.open('/proc/loadavg', &:readline).scan(/\d+.\d+/).map { |value| value.to_f } 
-    
+
+      stdin, stdout, stderr = Open3.popen3('cat /proc/cpuinfo | grep cores')   
+      cores = stdout.gets
+      loadavg[:cores] = (cores)? cores.scan(/\d+/).first.to_i : 1
+       
       loadavg
     end
 
