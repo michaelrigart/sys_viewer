@@ -7,5 +7,9 @@ module SysViewer
     def hostname
       Socket.gethostname
     end
+
+    def user
+      ENV['USER']
+    end
   end
 end
