@@ -6,6 +6,8 @@ class TestSysViewer < Test::Unit::TestCase
     case RUBY_PLATFORM
       when /darwin/
         SysViewer.include?(SysViewer::Osx)
+      when /linux/
+        SysViewer.include?(SysViewer::Linux)
     end
   end
 
