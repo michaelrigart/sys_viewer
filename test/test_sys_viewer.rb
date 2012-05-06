@@ -110,11 +110,11 @@ class TestSysViewer < Test::Unit::TestCase
     assert response.kind_of?(Hash)
 
     assert response.has_key?(:user)
-    assert response[:user].kind_of?(Integer)
+    assert response[:user].kind_of?(Float)
     assert response.has_key?(:system)
-    assert response[:system].kind_of?(Integer)
+    assert response[:system].kind_of?(Float)
     assert response.has_key?(:idle)
-    assert response[:idle].kind_of?(Integer)
+    assert response[:idle].kind_of?(Float)
   end
 
   test "network_traffic exists" do
